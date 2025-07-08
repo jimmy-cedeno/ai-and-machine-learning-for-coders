@@ -17,6 +17,9 @@ train_datagen = ImageDataGenerator(
     horizontal_flip=True,
     fill_mode='nearest'
 )
+
+test_datagen = ImageDataGenerator(rescale=1.0/255.)
+
 training_dir = 'horse-or-human/training/'
 validation_dir = 'horse-or-human/validation/'
 
@@ -51,7 +54,7 @@ model.compile(loss='binary_crossentropy',
               metrics=['accuracy']
               )
 
-validation_generator = train_datagen.flow_from_directory(
+validation_generator = test_datagen.flow_from_directory(
     validation_dir,
     target_size=(300, 300),
     class_mode='binary'
@@ -72,6 +75,7 @@ for fn in os.listdir(test_path):
     img = image.load_img(path, target_size=(300, 300))
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
+    x = x / 255.0
 
     image_tensor = np.vstack([x])
     classes = model.predict(image_tensor)

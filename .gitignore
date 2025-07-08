@@ -1,3 +1,5 @@
 .idea/
 CNNHorseOrHuman/horse-or-human/
 *.zip
+CNNHorseOrHuman/*.h5
+CNNHorseOrHuman/venv/
