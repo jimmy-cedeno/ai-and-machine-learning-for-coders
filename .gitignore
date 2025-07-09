@@ -1,8 +1,8 @@
 .idea/
 CNNHorseOrHuman/horse-or-human/
 *.zip
-CNNHorseOrHuman/*.h5
-CNNHorseOrHuman/venv/
-rock-paper-scissors/venv
-rock-paper-scissors/*.h5
-rock-paper-scissors/rps/
+*.png
+*.jpg
+*.jpeg
+*.h5
+venv/
