@@ -50,7 +50,7 @@ model.compile(
 
 
 
-train_datagen = ImageDataGenerator(rescale=1./255.,
+train_datagen = ImageDataGenerator(rescale=1.0/255,
                                    rotation_range=40,
                                    width_shift_range=0.2,
                                    height_shift_range=0.2,
@@ -77,17 +77,26 @@ zip_ref = zipfile.ZipFile(validation_file_name, 'r')
 zip_ref.extractall(validation_dir)
 zip_ref.close()
 
-test_datagen = ImageDataGenerator(rescale=1.0/255.)
+
+
+
+
+test_datagen = ImageDataGenerator(rescale=1.0/255)
 
 train_generator = train_datagen.flow_from_directory(training_dir,
-                                                    batch_size=20,
+                                                    batch_size=10,
                                                     class_mode='binary',
                                                     target_size=(150, 150))
 
 validation_generator =  test_datagen.flow_from_directory(validation_dir,
-                                                         batch_size=20,
+                                                         batch_size=10,
                                                          class_mode='binary',
                                                          target_size=(150, 150))
+
+print("Clases de entrenamiento:", train_generator.class_indices)
+print("Clases de validación:", validation_generator.class_indices)
+print("Cantidad de imágenes entrenamiento:", train_generator.samples)
+print("Cantidad de imágenes validación:", validation_generator.samples)
 
 history = model.fit(
     train_generator,
