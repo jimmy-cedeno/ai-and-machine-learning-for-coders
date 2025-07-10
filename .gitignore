@@ -5,4 +5,8 @@ CNNHorseOrHuman/horse-or-human/
 *.jpg
 *.jpeg
 *.h5
+*.pdf
+*.txt
+*.db
+*.sh
 venv/
