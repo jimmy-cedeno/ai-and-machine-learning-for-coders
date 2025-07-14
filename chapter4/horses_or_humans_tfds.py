@@ -2,9 +2,11 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import tensorflow_addons as tfa
 
+# Extract phase
 data = tfds.load('horses_or_humans', split='train', as_supervised=True)
 val_data = tfds.load('horses_or_humans', split='test', as_supervised=True)
 
+# Transform phase
 def augmentimages(image, label):
   image = tf.cast(image, tf.float32)
   image = (image/255)
@@ -16,6 +18,7 @@ train = data.map(augmentimages)
 train_batches = data.shuffle(100).batch(32)
 validation_batches = val_data.batch(32)
 
+# Model definition
 model = tf.keras.models.Sequential([
   tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=(300, 300, 3)),
   tf.keras.layers.MaxPooling2D(2,2),
@@ -34,5 +37,6 @@ model = tf.keras.models.Sequential([
 
 model.compile(optimizer='Adam', loss='binary_crossentropy', metrics=['accuracy'])
 
+# Load phase
 history = model.fit(train_batches, epochs=10, validation_data=validation_batches, validation_steps=1)
 
