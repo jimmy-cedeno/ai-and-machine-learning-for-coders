@@ -8,7 +8,6 @@ def plot_series(time, series, format='-', start=0, end=None):
   plt.xlabel('Time')
   plt.ylabel('Value')
   plt.grid(True)
-  plt.show()
 
 def trend(time, slope=0):
   return slope * time
@@ -50,7 +49,7 @@ shuffle_buffer_size = 1000
 
 plt.figure(figsize=(10, 6))
 plot_series(time_valid, x_valid)
-
+plt.show()
 
 
 def windowed_dataset(series, window_size, batch_size, shuffle_buffer):
@@ -70,7 +69,7 @@ def build_model(hp):
   model.add(tf.keras.layers.Dense(10, activation='relu'))
   model.add(tf.keras.layers.Dense(1))
 
-  model.compile(loss='mse', optimizer=tf.keras.optimizers.SGD(hp.Choice('momentum', values=[.9, .7, .5, .3]), lr=1e-5))
+  model.compile(loss='mse', optimizer=tf.keras.optimizers.SGD(hp.Choice('momentum', values=[.9, .7, .5, .3]), learning_rate=1e-5))
   # model.compile(loss='mse', optimizer=tf.keras.optimizers.Adam(hp.Float('learning_rate', min_value=1e-4, max_value=1e-2, sampling='log')))
   return model
 
@@ -92,7 +91,7 @@ model = tf.keras.models.Sequential([
   tf.keras.layers.Dense(1)
 ])
 
-optimizer = tf.keras.optimizers.SGD(lr=1e-5, momentum=0.5)
+optimizer = tf.keras.optimizers.SGD(learning_rate=1e-5, momentum=0.5)
 model.compile(loss='mse', optimizer=optimizer)
 history = model.fit(dataset, epochs=100, verbose=1)
 
@@ -106,5 +105,5 @@ results = np.array(forecast)[:, 0, 0]
 plt.figure(figsize=(10, 6))
 plot_series(time_valid, x_valid)
 plot_series(time_valid, results)
-
+plt.show()
 print(tf.keras.metrics.mean_absolute_error(x_valid, results).numpy())
