@@ -9,5 +9,7 @@ CNNHorseOrHuman/horse-or-human/
 *.txt
 *.db
 *.sh
+*.csv
 .DS_Store
 venv/
+chapter11/my_dir/
