@@ -10,6 +10,9 @@ CNNHorseOrHuman/horse-or-human/
 *.db
 *.sh
 *.csv
+*.tflite
 .DS_Store
 venv/
 chapter11/my_dir/
+chapter12/saved_model/
+chapter12/exp_saved_model/
