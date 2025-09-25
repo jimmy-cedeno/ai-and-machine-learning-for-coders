@@ -1,0 +1,50 @@
+<html>
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+</head>
+
+<body>
+  <div><canvas id='cnv' width='1280' height='960'></canvas></div>
+  <div><img id='master' src="tennis.png" style="display:none" /></div>
+
+  <script>
+    const imageElement = document.getElementById('master');
+
+    // Wait for image to load
+    imageElement.onload = async () => {
+      const net = await posenet.load();
+      const pose = await net.estimateSinglePose(imageElement, {});
+      console.log(pose);
+      drawPredictions(pose);
+    };
+
+    function drawPredictions(pose) {
+      const canvas = document.getElementById('cnv');
+      const context = canvas.getContext('2d');
+
+      // Draw image first
+      context.drawImage(imageElement, 0, 0);
+
+      // Draw keypoints
+      const radius = 2;
+      for (let i = 0; i < pose.keypoints.length; i++) {
+        const keypoint = pose.keypoints[i];
+        const { x, y } = keypoint.position;
+        const part = keypoint.part;
+
+        context.beginPath();
+        context.font = "18px Arial";
+        context.fillStyle = "white";
+        context.fillText(part, x, y);
+        context.arc(x, y, radius, 0, 2 * Math.PI, false);
+        context.fillStyle = 'aqua';
+        context.fill();
+
+      }
+    }
+  </script>
+</body>
+
+</html>
